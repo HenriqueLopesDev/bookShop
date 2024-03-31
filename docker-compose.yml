@@ -1,0 +1,20 @@
+version: '1.0'
+
+
+services:
+    frontend:
+        container_name: "bookShopFrontend"
+        image: node:alpine
+        ports:
+            - "80:3000"
+        restart: "no"
+        working_dir: /var/www/html
+        volumes:
+            - ./frontend:/var/www/html
+        networks:
+          - bookShop
+        command: sh -c 'npm run dev'
+
+networks:
+    bookShop:
+        driver: bridge
