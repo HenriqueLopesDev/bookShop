@@ -19,7 +19,7 @@ export default function BreadCrumb({ breadcrumbs }: breadCrumbProps) {
     <div className="font-poppins flex items-center gap-1">
       <Link
         href="/"
-        className="text-neutral-500 hover:text-blue-500 duration-500 font-medium text-sm"
+        className="text-neutral-500 hover:text-blue-600 duration-700 font-medium text-sm"
         title="Ir para a página inicial"
       >
         Início
@@ -39,7 +39,7 @@ export default function BreadCrumb({ breadcrumbs }: breadCrumbProps) {
               key={breadcrumb.path}
               href={breadcrumb.path ?? ''}
               title={breadcrumb.description ?? ''}
-              className="text-neutral-400 hover:text-blue-500 duration-500 font-medium text-sm"
+              className="text-neutral-400 hover:text-blue-600 duration-700 font-medium text-sm"
             >
               {breadcrumb.name}
             </Link>

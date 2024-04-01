@@ -2,7 +2,7 @@ import { BreadCrumb } from '@/components'
 
 export default function Livros() {
   return (
-    <div className="py-5 px-10">
+    <div className="py-5 px-10 flex flex-col gap-8">
       <header className="flex flex-col gap-2">
         <BreadCrumb
           breadcrumbs={[
@@ -18,6 +18,15 @@ export default function Livros() {
           <button>Novo livro</button>
         </div>
       </header>
+      <div className="bg-neutral-200 bg-[#e8e8e8] py-3 px-4 rounded-md h-[calc(100vh-196px)]">
+        <div>
+          <form>
+            <input type="text" placeholder="Nome do livro" />
+            <button />
+          </form>
+        </div>
+        <button>Filtros</button>
+      </div>
     </div>
   )
 }
