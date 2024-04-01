@@ -23,18 +23,18 @@ export default function SideBar({ routes }: routesProps) {
 
   return (
     <aside
-      className={`flex flex-col justify-between bg-white w-[88px] hover:w-56 duration-300 py-2.5 px-3.5 h-screen absolute border-r-2 border-gray-200`}
+      className={`flex flex-col justify-between bg-white w-[80px] hover:w-56 duration-300 py-2.5 px-3.5 h-screen absolute border-r-2 border-gray-200`}
     >
       <ul className="flex flex-col font-poppins font-medium gap-2">
         {routes.map((route) => (
           <li
             key={route.path}
-            className="overflow-hidden rounded-md"
+            className="overflow-hidden rounded-lg"
             title={route.description}
           >
             <Link
               href={route.path}
-              className={`text-[17px] text-[#707070] flex gap-6 items-center p-[8px_18px] justify-start w-full hover:bg-blue-500 hover:text-white duration-500 ${pathname === route.path ? 'bg-blue-500 text-white' : ''}`}
+              className={`text-[17px] text-[#707070] flex gap-6 items-center p-[8px_14px] justify-start w-full hover:bg-blue-700 hover:text-white duration-500 ${pathname === route.path ? 'bg-blue-700 text-white' : ''}`}
             >
               <div className="min-w-[22px]">{route.icon}</div>
               <span className="overflow-hidden text-nowrap">{route.name}</span>
@@ -43,7 +43,7 @@ export default function SideBar({ routes }: routesProps) {
         ))}
       </ul>
       <div
-        className="bg-blue-500 rounded-md p-[8px_18px] h-[41.5px] flex items-center w-full gap-6 cursor-pointer relative"
+        className="bg-blue-700 rounded-lg p-[8px_14px] h-[41.5px] flex items-center w-full gap-6 cursor-pointer relative"
         title="Clique para trocar o Cliente"
         onClick={() => setIsUsersDropdownOpen(!isUsersDropdownOpen)}
       >
