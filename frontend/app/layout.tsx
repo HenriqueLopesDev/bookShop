@@ -4,13 +4,14 @@ import { ReactNode } from 'react'
 import { Metadata } from 'next'
 import { SideBar } from '@/components'
 import { House, BookBookmark } from '@phosphor-icons/react/dist/ssr'
+import 'bootstrap/dist/css/bootstrap.min.css'
 
 const montserrat = Montserrat({
   display: 'swap',
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800', '900'],
   fallback: ['sans-serif'],
-  variable: '--font-mont',
+  variable: '--tw-font-mont',
 })
 
 const poppins = Poppins({
@@ -18,7 +19,7 @@ const poppins = Poppins({
   subsets: ['latin'],
   weight: ['300', '400', '500', '600', '700', '800', '900'],
   fallback: ['sans-serif'],
-  variable: '--font-poppins',
+  variable: '--tw-font-poppins',
 })
 
 export const metadata: Metadata = {
@@ -51,7 +52,7 @@ export default function RootLayout({
             },
           ]}
         />
-        <div className="pl-[88px]">{children}</div>
+        <div className="tw-pl-[88px]">{children}</div>
       </body>
     </html>
   )

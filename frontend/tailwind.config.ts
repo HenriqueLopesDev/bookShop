@@ -1,6 +1,7 @@
 import type { Config } from 'tailwindcss'
 
 const config: Config = {
+  prefix: 'tw-',
   content: [
     './pages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
@@ -9,8 +10,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        poppins: 'var(--font-poppins)',
-        mont: 'var(--font-mont)',
+        poppins: 'var(--tw-font-poppins)',
+        mont: 'var(--tw-font-mont)',
       },
     },
   },
