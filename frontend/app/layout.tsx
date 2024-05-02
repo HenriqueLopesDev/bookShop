@@ -2,8 +2,7 @@ import { Montserrat, Poppins } from 'next/font/google'
 import './globals.css'
 import { ReactNode } from 'react'
 import { Metadata } from 'next'
-import { SideBar } from '@/components'
-import { House, BookBookmark } from '@phosphor-icons/react/dist/ssr'
+import { NavigationBar } from '@/components'
 import 'bootstrap/dist/css/bootstrap.min.css'
 
 const montserrat = Montserrat({
@@ -36,23 +35,8 @@ export default function RootLayout({
   return (
     <html lang="pt-BR" className={`${montserrat.variable} ${poppins.variable}`}>
       <body className={montserrat.className}>
-        <SideBar
-          routes={[
-            {
-              name: 'Início',
-              path: '/',
-              description: 'Página inicial',
-              icon: <House size={22} weight="bold" />,
-            },
-            {
-              name: 'Livros',
-              path: '/livros',
-              description: 'Ir para a página de Livros',
-              icon: <BookBookmark size={22} weight="bold" />,
-            },
-          ]}
-        />
-        <div className="tw-pl-[88px]">{children}</div>
+        <NavigationBar />
+        <div className="tw-pl-[88px] max-[992px]:tw-px-4">{children}</div>
       </body>
     </html>
   )

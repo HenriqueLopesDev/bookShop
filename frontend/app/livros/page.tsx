@@ -63,7 +63,7 @@ export default function Livros() {
   ]
 
   return (
-    <div className="tw-py-5 tw-px-8 tw-flex tw-flex-col tw-gap-8">
+    <div className="tw-py-5 tw-px-8 tw-flex tw-flex-col tw-gap-8 max-[992px]:tw-px-0">
       <header className="tw-flex tw-flex-col tw-gap-2">
         <BreadCrumb
           breadcrumbs={[

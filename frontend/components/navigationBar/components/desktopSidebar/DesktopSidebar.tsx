@@ -16,14 +16,14 @@ interface routesProps {
   routes: route[]
 }
 
-export default function SideBar({ routes }: routesProps) {
+export default function DesktopSidebar({ routes }: routesProps) {
   const pathname = usePathname()
 
   const [isUsersDropdownOpen, setIsUsersDropdownOpen] = useState(false)
 
   return (
     <aside
-      className={`tw-flex tw-flex-col tw-justify-between tw-bg-white tw-w-[80px] hover:tw-w-56 tw-duration-300 tw-py-2.5 tw-px-3.5 tw-h-screen tw-absolute tw-border-r-2 tw-border-gray-200`}
+      className={`tw-flex tw-flex-col tw-justify-between tw-bg-white tw-w-[80px] hover:tw-w-56 tw-duration-300 tw-py-2.5 tw-px-3.5 tw-h-screen tw-absolute tw-border-r-2 tw-border-gray-200 max-[992px]:tw-hidden`}
     >
       <ul className="tw-flex tw-flex-col tw-font-poppins tw-font-medium tw-gap-2 tw-p-0 tw-m-0">
         {routes.map((route) => (
