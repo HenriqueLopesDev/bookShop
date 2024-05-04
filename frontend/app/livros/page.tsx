@@ -1,4 +1,4 @@
-import { BreadCrumb } from '@/components'
+import { BreadCrumb, MainModal } from '@/components'
 import {
   MagnifyingGlass,
   Funnel,
@@ -76,10 +76,12 @@ export default function Livros() {
           <h1 className="tw-font-semibold tw-font-mont tw-text-3xl tw-text-blue-800 tw-m-0">
             Livros
           </h1>
-          <button className="tw-text-white tw-bg-blue-600 tw-py-2 tw-px-4 tw-rounded-lg tw-flex tw-gap-2 tw-items-center hover:tw-bg-blue-500 hover:tw-text-neutral-100 tw-duration-500">
-            <span className="tw-font-medium tw-font-poppins">Novo livro</span>
-            <PlusCircle size={20} weight="bold" />
-          </button>
+          <MainModal description="Modal 1">
+            <button className="tw-text-white tw-bg-blue-600 tw-py-2 tw-px-4 tw-rounded-lg tw-flex tw-gap-2 tw-items-center hover:tw-bg-blue-500 hover:tw-text-neutral-100 tw-duration-500">
+              <span className="tw-font-medium tw-font-poppins">Novo livro</span>
+              <PlusCircle size={20} weight="bold" />
+            </button>
+          </MainModal>
         </div>
       </header>
       <div className="tw-bg-neutral-200 tw-bg-[#e9e9e9] tw-py-3 tw-px-4 tw-rounded-md tw-h-[calc(100vh-196px)] tw-flex tw-flex-col tw-gap-3">

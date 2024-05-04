@@ -28,7 +28,7 @@ export default function BreadCrumb({ breadcrumbs }: breadCrumbProps) {
       {breadcrumbs.map((breadcrumb, index) => {
         return isLastBreadcrumb(index) ? (
           <span
-            key={breadcrumb.path}
+            key={index}
             className="tw-text-neutral-400 tw-font-medium tw-text-sm"
           >
             {breadcrumb.name}
