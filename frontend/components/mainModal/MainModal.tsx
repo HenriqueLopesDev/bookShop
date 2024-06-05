@@ -1,41 +1,46 @@
 'use client'
 
-import { ReactNode, useState } from 'react'
-import { Button, Modal } from 'react-bootstrap'
+import { ReactNode } from 'react'
+import { Modal } from 'react-bootstrap'
 
 interface ModalProps {
-  description: string
+  title: string
+  size?: 'sm' | 'lg' | 'xl'
+  escapeKey?: boolean
+  closable?: boolean | 'static'
   children: ReactNode
+  animationOnEnter?: boolean
+  show: boolean
+  onHide: () => void
 }
 
-/**
- *
- * @param children - React element that will act as the trigger for the modal, usually a button.
- * @returns JSX.Element - Modal component
- */
-export default function MainModal({ children, description }: ModalProps) {
-  const [show, setShow] = useState(false)
-
-  const handleClose = () => setShow(false)
-  const handleShow = () => setShow(true)
-
+export default function MainModal({
+  children,
+  title,
+  escapeKey = false,
+  closable = true,
+  size = undefined,
+  animationOnEnter = true,
+  show,
+  onHide,
+}: ModalProps) {
   return (
     <>
-      <div onClick={handleShow}>{children}</div>
-
-      <Modal show={show} onHide={handleClose}>
+      <Modal
+        show={show}
+        size={size}
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+        keyboard={escapeKey}
+        onHide={onHide}
+        backdrop={closable}
+        style={{ scrollBehavior: 'smooth' }}
+        animation={animationOnEnter}
+      >
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>{title}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{description}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
+        <Modal.Body>{children}</Modal.Body>
       </Modal>
     </>
   )
