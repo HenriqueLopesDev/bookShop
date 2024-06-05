@@ -1,5 +1,6 @@
 'use client'
 
+import { X } from '@phosphor-icons/react'
 import { ReactNode } from 'react'
 import { Modal } from 'react-bootstrap'
 
@@ -37,8 +38,13 @@ export default function MainModal({
         style={{ scrollBehavior: 'smooth' }}
         animation={animationOnEnter}
       >
-        <Modal.Header closeButton>
-          <Modal.Title>{title}</Modal.Title>
+        <Modal.Header className="!tw-py-2">
+          <Modal.Title className="tw-text-center tw-w-full !tw-font-semibold tw-font-mont !tw-text-[#403937]">
+            {title}
+          </Modal.Title>
+          <button onClick={onHide} title="Clique para fechar">
+            <X size={24} weight="bold" color="#574F4D" />
+          </button>
         </Modal.Header>
         <Modal.Body>{children}</Modal.Body>
       </Modal>
