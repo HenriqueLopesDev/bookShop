@@ -1,17 +1,24 @@
 'use client'
 
-import { BreadCrumb, MainModal } from '@/components'
+import { BreadCrumb } from '@/components'
 import {
   MagnifyingGlass,
   Funnel,
   PlusCircle,
   DotsThreeOutlineVertical,
 } from '@phosphor-icons/react/dist/ssr'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import CreateNewBookModal from '@/app/livros/components/CreateNewBookModal'
+import DeleteBookModal from '@/app/livros/components/DeleteBookModal'
+import useBooks from '@/hooks/useBooks'
 
 export default function Livros() {
-  const [showCreateBookModal, setShowCreateBookModal] = useState(false)
+  const { setToCreate, bookState, bookActionsEnum, setDefault, setToDelete } =
+    useBooks()
+  const [openDropdownIndex, setOpenDropdownIndex] = useState<number | null>(
+    null,
+  )
+  const dropdownRefs = useRef<(HTMLDivElement | null)[]>([])
 
   const books = [
     {
@@ -63,6 +70,23 @@ export default function Livros() {
     },
   ]
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        openDropdownIndex !== null &&
+        dropdownRefs.current[openDropdownIndex] &&
+        !dropdownRefs.current[openDropdownIndex]?.contains(event.target as Node)
+      ) {
+        setOpenDropdownIndex(null)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [openDropdownIndex])
+
   return (
     <>
       <div className="tw-py-5 tw-px-8 tw-flex tw-flex-col tw-gap-8 max-[992px]:tw-px-0">
@@ -79,7 +103,7 @@ export default function Livros() {
               Livros
             </h1>
             <button
-              onClick={() => setShowCreateBookModal(true)}
+              onClick={() => setToCreate()}
               className="tw-text-white tw-bg-blue-600 tw-py-2 tw-px-4 tw-rounded-lg tw-flex tw-gap-2 tw-items-center hover:tw-bg-blue-500 hover:tw-text-neutral-100 tw-duration-500"
             >
               <span className="tw-font-medium tw-font-poppins">Novo livro</span>
@@ -164,10 +188,49 @@ export default function Livros() {
                     title="Gerir livro"
                     className="col-xl-1 col-lg-1 col-md-2 tw-flex tw-items-center"
                   >
-                    <div className="tw-flex tw-justify-center tw-items-center tw-w-full">
-                      <button className="tw-border-2 tw-border-blue-400 tw-p-1 tw-rounded-md tw-text-[#574F4D] hover:tw-bg-blue-300 hover:tw-text-white tw-duration-300">
+                    <div className="tw-flex tw-justify-center tw-items-center tw-w-full tw-relative">
+                      <button
+                        onClick={() => setOpenDropdownIndex(index)}
+                        className="tw-border-2 tw-border-blue-400 tw-p-1 tw-rounded-md tw-text-[#574F4D] hover:tw-bg-blue-300 hover:tw-text-white tw-duration-300"
+                      >
                         <DotsThreeOutlineVertical size={16} weight="fill" />
                       </button>
+                      {openDropdownIndex === index && (
+                        <div
+                          ref={(el) => {
+                            dropdownRefs.current[index] = el
+                          }}
+                          className={`tw-absolute ${
+                            index >= books.length - 3
+                              ? 'tw-bottom-0 tw-right-[90px]'
+                              : 'tw-top-0 tw-right-[90px]'
+                          } tw-bg-white tw-shadow-md tw-rounded-md tw-border tw-border-neutral-300 tw-border-blue-500 tw-z-10`}
+                        >
+                          <ul className="tw-list-none tw-p-2 tw-m-0 tw-font-mont tw-text-[#574F4D] tw-font-medium">
+                            <li
+                              title="Visualizar informações do livro"
+                              onClick={() => console.log('Visualizar')}
+                              className="tw-p-2 tw-text-center tw-cursor-pointer hover:tw-bg-blue-100 tw-duration-300 tw-rounded"
+                            >
+                              Visualizar
+                            </li>
+                            <li
+                              title="Editar informações do livro"
+                              onClick={() => console.log('Editar')}
+                              className="tw-p-2 tw-text-center tw-cursor-pointer hover:tw-bg-blue-100 tw-duration-300 tw-rounded"
+                            >
+                              Editar
+                            </li>
+                            <li
+                              title="Excluir livro"
+                              onClick={() => setToDelete(book.title)}
+                              className="tw-p-2 tw-text-center tw-cursor-pointer hover:tw-bg-blue-100 tw-duration-300 tw-rounded"
+                            >
+                              Excluir
+                            </li>
+                          </ul>
+                        </div>
+                      )}
                     </div>
                   </td>
                 </tr>
@@ -176,10 +239,17 @@ export default function Livros() {
           </table>
         </div>
       </div>
-      {showCreateBookModal && (
+      {bookState.action === bookActionsEnum.CREATE && (
         <CreateNewBookModal
-          show={showCreateBookModal}
-          onHide={() => setShowCreateBookModal(false)}
+          show={bookState.action === bookActionsEnum.CREATE}
+          onHide={() => setDefault()}
+        />
+      )}
+      {bookState.action === bookActionsEnum.DELETE && (
+        <DeleteBookModal
+          show={bookState.action === bookActionsEnum.DELETE}
+          onHide={() => setDefault()}
+          title={bookState.currentBook as string}
         />
       )}
     </>
