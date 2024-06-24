@@ -1,4 +1,4 @@
-import { MainModal } from '@/components'
+import { MainModal, Spinner } from '@/components'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -20,6 +20,7 @@ export default function CreateNewBookModal({
   const [authors, setAuthors] = useState<string[]>([])
   const authorsInputRef = useRef<HTMLInputElement>(null)
   const authorsMenuRef = useRef<HTMLDivElement>(null)
+  const [isDoingRequest, setIsDoingRequest] = useState(false)
 
   const {
     register,
@@ -117,7 +118,7 @@ export default function CreateNewBookModal({
           {authorsInputOnFocus && (
             <div
               ref={authorsMenuRef}
-              className="tw-absolute tw-top-16 tw-left-0 tw-w-full tw-bg-white tw-shadow-md tw-rounded-md tw-border tw-border-neutral-300 tw-z-10 tw-p-2 tw-max-h-56 tw-overflow-y-auto"
+              className="tw-absolute tw-top-16 tw-left-0 tw-w-full tw-bg-white tw-shadow-md tw-rounded-md tw-border tw-border-neutral-300 tw-z-10 tw-p-2 tw-max-h-36 tw-overflow-y-auto"
             >
               <div className="tw-flex tw-flex-col tw-gap-1">
                 {[
@@ -377,7 +378,18 @@ export default function CreateNewBookModal({
         <span className="tw-font-poppins tw-font-medium tw-text-neutral-500 tw-text-sm">
           Campos marcados com * são obrigatórios
         </span>
-        <button>Cadastrar</button>
+        <div className="tw-flex tw-justify-end">
+          <button
+            disabled={isDoingRequest}
+            className="tw-text-white tw-bg-blue-600 tw-py-2 tw-px-4 tw-rounded-lg tw-flex tw-justify-center tw-gap-2 tw-items-center hover:tw-bg-blue-500 hover:tw-text-neutral-100 tw-duration-500 tw-w-[114.55px] disabled:tw-opacity-75"
+          >
+            {isDoingRequest ? (
+              <Spinner />
+            ) : (
+              <span className="tw-font-medium tw-font-poppins">Cadastrar</span>
+            )}
+          </button>
+        </div>
       </form>
     </MainModal>
   )

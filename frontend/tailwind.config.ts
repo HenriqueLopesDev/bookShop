@@ -13,6 +13,15 @@ const config: Config = {
         poppins: 'var(--tw-font-poppins)',
         mont: 'var(--tw-font-mont)',
       },
+      animation: {
+        rotation: 'rotation 1s linear infinite',
+      },
+      keyframes: {
+        rotation: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
+        },
+      },
     },
   },
   plugins: [],
