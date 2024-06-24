@@ -5,6 +5,7 @@ import {
   createNewBookValidationSchema,
   formSchema,
 } from '@/domain/book/validation/BookZODValidationSchema'
+import { useEffect, useRef, useState } from 'react'
 
 interface CreateNewBookModalProps {
   show: boolean
@@ -15,16 +16,50 @@ export default function CreateNewBookModal({
   show,
   onHide,
 }: CreateNewBookModalProps) {
+  const [authorsInputOnFocus, setAuthorsInputOnFocus] = useState(false)
+  const [authors, setAuthors] = useState<string[]>([])
+  const authorsInputRef = useRef<HTMLInputElement>(null)
+  const authorsMenuRef = useRef<HTMLDivElement>(null)
+
   const {
     register,
     formState: { errors },
     handleSubmit,
+    setValue,
   } = useForm<formSchema>({
     resolver: zodResolver(createNewBookValidationSchema),
   })
 
   const onSubmit = (data: formSchema) => {
     console.log(data)
+  }
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        authorsInputRef.current &&
+        !authorsInputRef.current.contains(event.target as Node) &&
+        authorsMenuRef.current &&
+        !authorsMenuRef.current.contains(event.target as Node)
+      ) {
+        setAuthorsInputOnFocus(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [])
+
+  const handleAuthorClick = (author: string) => {
+    if (authors.includes(author)) {
+      setAuthors((prev) => prev.filter((a) => a !== author))
+      setValue('authors', authors.filter((a) => a !== author).join(', '))
+    } else {
+      setAuthors((prev) => [...prev, author])
+      setValue('authors', [...authors, author].join(', '))
+    }
   }
 
   return (
@@ -59,7 +94,10 @@ export default function CreateNewBookModal({
             </span>
           )}
         </div>
-        <div className="tw-flex tw-flex-col tw-gap-1">
+        <div
+          className="tw-flex tw-flex-col tw-gap-1 tw-relative"
+          ref={authorsInputRef}
+        >
           <label
             htmlFor="authors"
             className="tw-font-mont tw-font-medium tw-text-[#403937]"
@@ -67,13 +105,54 @@ export default function CreateNewBookModal({
             Autores: *
           </label>
           <input
-            tw-px-2
-            tw-py-1
             id="authors"
             type="text"
-            className="tw-bg-zinc-100 tw-rounded tw-outline-none"
-            placeholder="Selecione os autores"
+            className="tw-bg-zinc-100 tw-rounded tw-outline-none tw-px-2 tw-py-1 tw-border tw-border-neutral-300 focus:tw-border-blue-600 tw-duration-300 placeholder:tw-text-sm placeholder:tw-text-neutral-400 placeholder:tw-font-poppins"
+            {...register('authors')}
+            placeholder="Selecione os autores do livro"
+            onFocus={() => setAuthorsInputOnFocus(true)}
+            value={authors.join(', ')}
+            readOnly
           />
+          {authorsInputOnFocus && (
+            <div
+              ref={authorsMenuRef}
+              className="tw-absolute tw-top-16 tw-left-0 tw-w-full tw-bg-white tw-shadow-md tw-rounded-md tw-border tw-border-neutral-300 tw-z-10 tw-p-2 tw-max-h-56 tw-overflow-y-auto"
+            >
+              <div className="tw-flex tw-flex-col tw-gap-1">
+                {[
+                  'Autor 1',
+                  'Autor 2',
+                  'Autor 3',
+                  'Autor 4',
+                  'Autor 5',
+                  'Autor 6',
+                  'Autor 7',
+                  'Autor 8',
+                  'Autor 9',
+                ].map((author) => (
+                  <div
+                    key={author}
+                    className={`tw-flex tw-justify-between tw-items-center tw-w-full tw-p-2 tw-rounded-md tw-cursor-pointer tw-duration-500 ${
+                      authors.includes(author)
+                        ? 'tw-bg-blue-100'
+                        : 'tw-bg-neutral-100 hover:tw-bg-blue-100'
+                    }`}
+                    onClick={() => handleAuthorClick(author)}
+                  >
+                    <span className="tw-font-mont tw-font-medium tw-text-[#403937]">
+                      {author}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+          {errors.authors && (
+            <span className="tw-font-poppins tw-text-[13px] tw-text-red-400 tw-font-medium">
+              {errors.authors.message}
+            </span>
+          )}
         </div>
         <div className="tw-flex tw-flex-col tw-gap-1">
           <label

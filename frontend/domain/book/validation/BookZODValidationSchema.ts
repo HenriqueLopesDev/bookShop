@@ -5,6 +5,9 @@ export const createNewBookValidationSchema = z.object({
     .string()
     .min(1, { message: 'O título é obrigatório' })
     .max(255, { message: 'O título deve ter no máximo 255 caracteres' }),
+  authors: z
+    .string()
+    .min(1, { message: 'É obrigatório selecionar ao menos um autor' }),
   edition: z
     .string()
     .min(1, { message: 'A edição é obrigatória' })
